@@ -24,7 +24,7 @@ function App({
   sortDirection,
   handleSort
 }) {
-  console.log(sortCol, sortDirection);
+  console.log(searchResults);
   const [authorModalId, setAuthorModalId] = useState(false);
 
   const onClose = () => setAuthorModalId(false);
@@ -41,6 +41,8 @@ function App({
       <SearchAuthors />
       {searchResults.length < 1 ? null : (
         <ResultsTable
+          sortCol={sortCol}
+          sortDirection={sortDirection}
           handleSort={handleSort}
           columns={tableCols}
         >

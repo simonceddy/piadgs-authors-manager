@@ -20,13 +20,6 @@ export const setSortAuthors = (col, direction) => ({
   payload: { col, direction }
 });
 
-export const fetchSearchResults = (name) => (dispatch) => {
-  console.log(name);
-  return axios.get(`/authors/search?name=${name}`)
-    .then((res) => dispatch(setSearchResults(res.data.results || [])))
-    .catch((err) => console.log(err));
-};
-
 const flipDirection = (direction) => (direction === 'ASC' ? 'DESC' : 'ASC');
 
 const sortCols = (key, data) => {
@@ -36,6 +29,27 @@ const sortCols = (key, data) => {
     default:
       return sortPropAZ(data, key);
   }
+};
+
+export const fetchSearchResults = (name) => (dispatch, getState) => {
+  console.log(name);
+  return axios.get(`/authors/search?name=${name}`)
+    .then((res) => {
+      const { sortCol, sortDirection } = getState().authorSearch;
+
+      if (!res.data.results || res.data.results.length < 1) {
+        return dispatch(setSearchResults([]));
+      }
+
+      const sorted = sortCols(sortCol, res.data.results);
+      console.log(sortCol, sortDirection, sorted);
+      return dispatch(setSearchResults(
+        sortDirection === 'DESC'
+          ? sorted.reverse()
+          : sorted
+      ));
+    })
+    .catch((err) => console.log(err));
 };
 
 export const sortSearchResults = (key) => async (dispatch, getState) => {

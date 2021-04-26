@@ -1,14 +1,15 @@
-import { THEME_COLOUR_CLASSES } from '../shared/consts';
+import { THEME_COLOUR_CLASSES, THEME_HOVER_CLASSES } from '../shared/consts';
 
 function ResultRow({ author = {}, columns = [], onClick }) {
   return (
     <tr
       id={`author-${author.id}`}
-      className={`border-1 ${THEME_COLOUR_CLASSES}`}
       onClick={onClick}
+      className={`${THEME_COLOUR_CLASSES} ${THEME_HOVER_CLASSES}`}
     >
       {columns.map(({ key }) => (
         <td
+          className="border"
           key={`${author.id}-${key}`}
         >
           {author[key] || ''}

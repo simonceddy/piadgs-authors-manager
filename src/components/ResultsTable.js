@@ -1,6 +1,14 @@
 import { THEME_COLOUR_CLASSES } from '../shared/consts';
 
-function ResultsTable({ children, columns = [], handleSort = () => null }) {
+function ResultsTable({
+  children,
+  columns = [],
+  handleSort = () => null,
+  sortCol,
+  sortDirection
+}) {
+  const sortDirIcon = sortDirection === 'ASC' ? '▲' : '▼';
+
   return (
     <div className="flex flex-col justify-start items-start w-full h-full overflow-y-scroll">
       <table className="w-full">
@@ -9,15 +17,17 @@ function ResultsTable({ children, columns = [], handleSort = () => null }) {
             {columns.map(({ name, key }) => (
               <th
                 onClick={() => handleSort(key)}
-                className={`border-2 ${THEME_COLOUR_CLASSES}`}
+                className={`border-2 ${THEME_COLOUR_CLASSES} ${sortCol === key ? 'underline' : ''}`}
                 key={key}
               >
-                {name}
+                {name} {sortCol === key ? sortDirIcon : null}
               </th>
             ))}
           </tr>
         </thead>
-        <tbody>
+        <tbody
+          className={`border-1 ${THEME_COLOUR_CLASSES}`}
+        >
           {children}
         </tbody>
       </table>
