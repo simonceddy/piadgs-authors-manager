@@ -23,6 +23,12 @@ function ResultsTable({
                 {name} {sortCol === key ? sortDirIcon : null}
               </th>
             ))}
+            <th
+              className={`border-2 ${THEME_COLOUR_CLASSES} ${sortCol === 'titles' ? 'underline' : ''}`}
+              onClick={() => handleSort('titles')}
+            >
+              Titles {sortCol === 'titles' ? sortDirIcon : null}
+            </th>
           </tr>
         </thead>
         <tbody
