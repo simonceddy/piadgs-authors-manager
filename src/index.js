@@ -1,12 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './shared/styles/index.css';
+import './shared/styles/tailwind.css';
+import { Provider } from 'react-redux';
+import axios from 'axios';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import store from './store/index';
+
+axios.defaults.baseURL = 'http://127.0.0.1:3030';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

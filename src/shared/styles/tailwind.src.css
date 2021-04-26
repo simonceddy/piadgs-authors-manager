@@ -1,0 +1,9 @@
+@tailwind base;
+
+/* put components here */
+.flexColFromTop {
+  @apply flex flex-col justify-start items-center;
+}
+
+@tailwind components;
+@tailwind utilities;

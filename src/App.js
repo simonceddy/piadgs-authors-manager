@@ -1,25 +1,66 @@
-import logo from './logo.svg';
-import './App.css';
+import { useMemo, useState } from 'react';
+import { connect } from 'react-redux';
+import AppLayout from './components/AppLayout';
+import ResultRow from './components/ResultRow';
+import ResultsTable from './components/ResultsTable';
+import SearchAuthors from './containers/SearchAuthors';
+import Modal from './shared/components/Modal';
+import { sortSearchResults } from './store/actions/authorSearchActions';
 
-function App() {
+const tableCols = [
+  {
+    name: 'Surname',
+    key: 'surname'
+  },
+  {
+    name: 'Given Names',
+    key: 'givenNames'
+  },
+];
+
+function App({
+  searchResults = [],
+  sortCol,
+  sortDirection,
+  handleSort
+}) {
+  console.log(sortCol, sortDirection);
+  const [authorModalId, setAuthorModalId] = useState(false);
+
+  const onClose = () => setAuthorModalId(false);
+
+  const AuthorModal = useMemo(() => (!authorModalId ? null : (
+    <Modal onClose={onClose}>
+      <div onClose={onClose} id={authorModalId} />
+    </Modal>
+  )), [authorModalId]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <AppLayout>
+      {AuthorModal}
+      <SearchAuthors />
+      {searchResults.length < 1 ? null : (
+        <ResultsTable
+          handleSort={handleSort}
+          columns={tableCols}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          {searchResults.map((author = {}) => (
+            <ResultRow key={author.id} author={author} columns={tableCols} />
+          ))}
+        </ResultsTable>
+      )}
+    </AppLayout>
   );
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  searchResults: state.authorSearch.results,
+  sortCol: state.authorSearch.sortCol,
+  sortDirection: state.authorSearch.sortDirection
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  handleSort: (key) => dispatch(sortSearchResults(key))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

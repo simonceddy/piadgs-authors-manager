@@ -1,0 +1,62 @@
+import axios from 'axios';
+import { sortPropAZ, sortPropLength } from '../../util/sort';
+
+export const SET_SEARCH_INPUT = 'SET_SEARCH_INPUT';
+export const SET_SEARCH_RESULTS = 'SET_SEARCH_RESULTS';
+export const SET_SORT_AUTHORS = 'SET_SORT_AUTHORS';
+
+export const setSearchInput = (input) => ({
+  type: SET_SEARCH_INPUT,
+  payload: { input }
+});
+
+export const setSearchResults = (results) => ({
+  type: SET_SEARCH_RESULTS,
+  payload: { results }
+});
+
+export const setSortAuthors = (col, direction) => ({
+  type: SET_SORT_AUTHORS,
+  payload: { col, direction }
+});
+
+export const fetchSearchResults = (name) => (dispatch) => {
+  console.log(name);
+  return axios.get(`/authors/search?name=${name}`)
+    .then((res) => dispatch(setSearchResults(res.data.results || [])))
+    .catch((err) => console.log(err));
+};
+
+const flipDirection = (direction) => (direction === 'ASC' ? 'DESC' : 'ASC');
+
+const sortCols = (key, data) => {
+  switch (key) {
+    case 'titles':
+      return sortPropLength(data, 'titles');
+    default:
+      return sortPropAZ(data, key);
+  }
+};
+
+export const sortSearchResults = (key) => async (dispatch, getState) => {
+  const { results, sortCol, sortDirection } = getState().authorSearch;
+  const isSameKey = key === sortCol;
+  // console.log(sortDirection, isSameKey);
+
+  const direction = isSameKey ? flipDirection(sortDirection) : sortDirection;
+
+  return Promise.resolve(dispatch(setSortAuthors(
+    key,
+    direction
+  )))
+    .then(() => {
+      const sorted = sortCols(key, results);
+
+      return dispatch(setSearchResults(
+        direction === 'DESC'
+          ? sorted.reverse()
+          : sorted
+      ));
+    })
+    .catch((err) => console.log(err));
+};
