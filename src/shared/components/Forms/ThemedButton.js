@@ -1,4 +1,4 @@
-import { THEME_COLOUR_CLASSES } from '../shared/consts';
+import { THEME_COLOUR_CLASSES } from '../../consts';
 
 function ThemedButton({
   children,
@@ -10,7 +10,7 @@ function ThemedButton({
     <button
       type={submits ? 'submit' : 'button'}
       onClick={onClick}
-      className={`${THEME_COLOUR_CLASSES} hover:underline border-2 p-2 rounded-xl text-2xl ${className}`}
+      className={`${THEME_COLOUR_CLASSES} hover:underline border-2 p-2 rounded-xl ${className}`}
     >
       {children}
     </button>

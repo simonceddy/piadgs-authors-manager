@@ -42,7 +42,7 @@ export const fetchSearchResults = (name) => (dispatch, getState) => {
       }
 
       const sorted = sortCols(sortCol, res.data.results);
-      console.log(sortCol, sortDirection, sorted);
+      // console.log(sortCol, sortDirection, sorted);
       return dispatch(setSearchResults(
         sortDirection === 'DESC'
           ? sorted.reverse()

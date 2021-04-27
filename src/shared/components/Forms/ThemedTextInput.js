@@ -1,4 +1,4 @@
-import { THEME_COLOUR_CLASSES } from '../shared/consts';
+import { THEME_COLOUR_CLASSES } from '../../consts';
 
 function ThemedTextInput({
   value,
@@ -27,7 +27,7 @@ function ThemedTextInput({
         type="text"
         value={value}
         onChange={onChange}
-        className={`${THEME_COLOUR_CLASSES} p-2 ${className} border-2 rounded-xl`}
+        className={`${THEME_COLOUR_CLASSES} p-2 ${className} border-2 flex-1 rounded-xl`}
       />
     </label>
   );

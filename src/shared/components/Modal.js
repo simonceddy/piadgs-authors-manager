@@ -12,8 +12,7 @@ function Modal({ children, onClose }) {
         className="w-full h-full opacity-0 z-10 absolute"
         onClick={onClose}
       />
-
-      <div className="flex max-h-full flex-col z-10 justify-between">
+      <div className="flex flex-col z-20 m-auto all-center max-h-full overflow-scroll w-full sm:w-11/12 md:w-4/5 lg:w-3/4 xl:w-2/3">
         {children}
       </div>
     </div>

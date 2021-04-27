@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import AppLayout from './components/AppLayout';
 import ResultRow from './components/ResultRow';
 import ResultsTable from './components/ResultsTable';
+import Author from './containers/Author';
 import SearchAuthors from './containers/SearchAuthors';
 import Modal from './shared/components/Modal';
 import { sortSearchResults } from './store/actions/authorSearchActions';
@@ -24,14 +25,14 @@ function App({
   sortDirection,
   handleSort
 }) {
-  console.log(searchResults);
+  // console.log(searchResults);
   const [authorModalId, setAuthorModalId] = useState(false);
 
   const onClose = () => setAuthorModalId(false);
 
   const AuthorModal = useMemo(() => (!authorModalId ? null : (
     <Modal onClose={onClose}>
-      <div onClose={onClose} id={authorModalId} />
+      <Author onClose={onClose} id={authorModalId} />
     </Modal>
   )), [authorModalId]);
 
@@ -47,7 +48,12 @@ function App({
           columns={tableCols}
         >
           {searchResults.map((author = {}) => (
-            <ResultRow key={author.id} author={author} columns={tableCols} />
+            <ResultRow
+              onClick={() => setAuthorModalId(author.id)}
+              key={author.id}
+              author={author}
+              columns={tableCols}
+            />
           ))}
         </ResultsTable>
       )}

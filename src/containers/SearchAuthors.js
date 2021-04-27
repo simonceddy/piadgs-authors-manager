@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { connect } from 'react-redux';
 import AuthorSearchForm from '../components/AuthorSearchForm';
-import ThemedButton from '../components/ThemedButton';
-import ThemedTextInput from '../components/ThemedTextInput';
+import { ThemedButton, ThemedTextInput } from '../shared/components/Forms';
 import { fetchSearchResults } from '../store/actions/authorSearchActions';
 
 function SearchAuthors({ submitSearch }) {
